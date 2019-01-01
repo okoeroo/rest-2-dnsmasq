@@ -132,7 +132,7 @@ class DNSMasqAPI:
                     if l.ipAddress == j['and']['ip'] and l.macAddress == j['and']['macaddr']:
                         print("Found IP and Mac combo")
                         leases.remove(l)
-                        writeLeases("/tmp/test.leases", leases)
+                        writeLeases(DNSMASQ_LEASES_FILE, leases)
                         res.status = falcon.HTTP_204
                         return
 
@@ -142,7 +142,7 @@ class DNSMasqAPI:
                     if l.ipAddress == j['and']['ip'] and l.name == j['and']['name']:
                         print("Found IP and Mac combo")
                         leases.remove(l)
-                        writeLeases("/tmp/test.leases", leases)
+                        writeLeases(DNSMASQ_LEASES_FILE, leases)
                         res.status = falcon.HTTP_204
                         return
             else:
@@ -157,7 +157,7 @@ class DNSMasqAPI:
                     if l.ipAddress == j['ip']:
                         print("Found it")
                         leases.remove(l)
-                        writeLeases("/tmp/test.leases", leases)
+                        writeLeases(DNSMASQ_LEASES_FILE, leases)
                         res.status = falcon.HTTP_204
                         return
             if 'macaddr' in j:
@@ -165,7 +165,7 @@ class DNSMasqAPI:
                     if l.macAddress == j['macaddr']:
                         print("Found it")
                         leases.remove(l)
-                        writeLeases("/tmp/test.leases", leases)
+                        writeLeases(DNSMASQ_LEASES_FILE, leases)
                         res.status = falcon.HTTP_204
                         return
             else:
