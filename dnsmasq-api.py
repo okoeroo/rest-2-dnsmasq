@@ -141,6 +141,7 @@ class DNSMasqAPI:
                 for l in leases:
                     if l.ipAddress == j['and']['ip'] and l.name == j['and']['name']:
                         print("Found IP and Mac combo")
+                        leases.remove(l)
                         writeLeases("/tmp/test.leases", leases)
                         res.status = falcon.HTTP_204
                         return
@@ -151,13 +152,26 @@ class DNSMasqAPI:
 
         # When a bare lookup is requested
         else:
-            for l in leases:
-                print(l.ipAddress, l.leasetime, l.macAddress, l.name, l.clientid)
-                if l.ipAddress == j['ip']:
-                    print("Found it")
-                    writeLeases("/tmp/test.leases", leases)
-                    res.status = falcon.HTTP_204
-                    return
+            if 'ip' in j:
+                for l in leases:
+                    if l.ipAddress == j['ip']:
+                        print("Found it")
+                        leases.remove(l)
+                        writeLeases("/tmp/test.leases", leases)
+                        res.status = falcon.HTTP_204
+                        return
+            if 'macaddr' in j:
+                for l in leases:
+                    if l.macAddress == j['macaddr']:
+                        print("Found it")
+                        leases.remove(l)
+                        writeLeases("/tmp/test.leases", leases)
+                        res.status = falcon.HTTP_204
+                        return
+            else:
+                print("Unfulfilled search criteria")
+                res.status = falcon.HTTP_400
+                return
 
         # Nothing found to do
         res.status = falcon.HTTP_404
